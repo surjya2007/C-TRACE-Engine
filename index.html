@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#09090f">
+
+    <meta name="description"
+        content="C-TRACE - Interactive C Programming Dry Run Visualizer">
+
+    <title>C-TRACE | C Programming Visualizer</title>
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">C</div>
+            <div>
+                <h2>C-TRACE</h2>
+                <span>CODE VISUALIZER</span>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <p class="section-label">WORKSPACE</p>
+
+            <button class="nav-item active" data-panel="workspace">
+                <span>⌘</span> Workspace
+            </button>
+
+            <button class="nav-item" data-panel="examples">
+                <span>▤</span> Examples
+            </button>
+
+            <button class="nav-item" data-panel="history">
+                <span>◷</span> Execution History
+            </button>
+        </div>
+
+        <div class="sidebar-section">
+            <p class="section-label">LEARN C</p>
+
+            <button class="nav-item" data-panel="basics">
+                <span>⌘</span> C Fundamentals
+            </button>
+
+            <button class="nav-item" data-panel="loops">
+                <span>↻</span> Loops & Conditions
+            </button>
+
+            <button class="nav-item" data-panel="arrays">
+                <span>▦</span> Arrays & Functions
+            </button>
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span>Frontend Environment</span>
+                <strong>READY</strong>
+            </div>
+
+            <div class="profile">
+                <div class="profile-avatar">CT</div>
+                <div>
+                    <strong>Developer</strong>
+                    <span>Free Workspace</span>
+                </div>
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="breadcrumb">
+                <span>Workspace</span>
+                <span>/</span>
+                <strong>main.c</strong>
+            </div>
+
+            <div class="top-actions">
+
+                <div class="compiler-status">
+                    <span class="status-dot"></span>
+                    Compiler integration pending
+                </div>
+
+                <button class="icon-button" id="themeButton"
+                    title="Toggle theme">
+                    ◐
+                </button>
+
+                <button class="share-button" id="shareButton">
+                    ↗ Share
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- WORKSPACE -->
+        <section class="workspace">
+
+            <div class="welcome-section">
+
+                <div>
+
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        INTERACTIVE C LEARNING ENVIRONMENT
+                    </div>
+
+                    <h1>Understand every <span>step.</span></h1>
+
+                    <p>
+                        Write your C program. Watch its execution.
+                        Understand what's happening behind the code.
+                    </p>
+
+                </div>
+
+                <div class="version-badge">
+                    <span>●</span> C-TRACE BETA
+                </div>
+
+            </div>
+
+
+            <!-- EDITOR TOOLBAR -->
+            <div class="editor-toolbar">
+
+                <div class="editor-tabs">
+
+                    <div class="editor-tab active">
+                        <span class="c-icon">C</span>
+                        main.c
+                        <span class="unsaved-dot"></span>
+                    </div>
+
+                    <button class="new-tab" id="resetButton"
+                        title="Reset example">
+                        ↺
+                    </button>
+
+                </div>
+
+                <div class="editor-actions">
+
+                    <button class="secondary-button" id="formatButton">
+                        ✧ Format
+                    </button>
+
+                    <button class="secondary-button" id="clearButton">
+                        Clear
+                    </button>
+
+                    <button class="run-button" id="runButton">
+                        ▶ Run Program
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- EDITOR AND INSPECTOR -->
+            <div class="editor-layout">
+
+                <section class="editor-panel">
+
+                    <div class="panel-heading">
+                        <span>CODE EDITOR</span>
+                        <span class="language-badge">C LANGUAGE</span>
+                    </div>
+
+                    <div class="code-editor-wrapper">
+                        <div id="monacoEditor"></div>
+                    </div>
+
+                    <div class="editor-footer">
+                        <span>● C Source File</span>
+                        <span id="cursorPosition">Ln 1, Col 1</span>
+                        <span>UTF-8</span>
+                    </div>
+
+                </section>
+
+
+                <!-- RIGHT PANEL -->
+                <aside class="right-panel">
+
+                    <!-- VARIABLE INSPECTOR -->
+                    <div class="panel-heading">
+                        <span>VARIABLE INSPECTOR</span>
+                        <span class="live-badge">● LIVE</span>
+                    </div>
+
+                    <div class="variables-content" id="variablesContent">
+
+                        <div class="empty-state">
+                            <div class="empty-icon">{ }</div>
+                            <strong>No variables yet</strong>
+                            <p>Run your program to inspect variables.</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="right-divider"></div>
+
+
+                    <!-- FUNCTION CALL STACK -->
+                    <div class="panel-heading">
+                        <span>FUNCTION CALL STACK</span>
+                        <span class="live-badge">● LIVE</span>
+                    </div>
+
+                    <div class="function-stack-panel">
+
+                        <div class="active-function-card">
+
+                            <span class="function-label">
+                                ACTIVE FUNCTION
+                            </span>
+
+                            <strong id="activeFunctionName">
+                                —
+                            </strong>
+
+                        </div>
+
+                        <div class="function-stack-heading">
+                            <span>CALL HIERARCHY</span>
+                            <span id="functionStackCount">0 FRAMES</span>
+                        </div>
+
+                        <div id="functionStackContent"
+                            class="function-stack-content">
+
+                            <div class="function-stack-empty">
+                                <span>ƒ</span>
+                                <p>No active function calls.</p>
+                                <small>Run a program to inspect its call stack.</small>
+                            </div>
+
+                        </div>
+
+                        <div class="function-details">
+
+                            <div class="function-detail-row">
+                                <span>Parameters</span>
+                                <strong id="functionParameters">—</strong>
+                            </div>
+
+                            <div class="function-detail-row">
+                                <span>Return Value</span>
+                                <strong id="functionReturnValue">—</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="right-divider"></div>
+
+
+                    <!-- MEMORY INSPECTOR -->
+                    <div class="panel-heading">
+
+                        <span>MEMORY INSPECTOR</span>
+
+                        <span class="live-badge">● LIVE</span>
+
+                    </div>
+
+                    <div class="memory-content" id="memoryContent">
+
+                        <div class="empty-state">
+
+                            <div class="empty-state-icon">🧠</div>
+
+                            <p>No memory snapshot yet.</p>
+
+                            <span>
+                                Run a program to inspect memory and scope.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="right-divider"></div>
+
+
+                    <!-- EXECUTION INFO -->
+                    <div class="panel-heading">
+                        <span>EXECUTION INFO</span>
+                    </div>
+
+                    <div class="execution-info">
+
+                        <div class="info-row">
+                            <span>Current Step</span>
+                            <strong id="currentStep">—</strong>
+                        </div>
+
+                        <div class="info-row">
+                            <span>Executed Lines</span>
+                            <strong id="executedLines">0</strong>
+                        </div>
+
+                        <div class="info-row">
+                            <span>Program Status</span>
+                            <strong class="status-ready" id="programStatus">
+                                READY
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <!-- EXECUTION TIMELINE -->
+            <section class="execution-panel">
+
+                <div class="execution-header">
+
+                    <div class="execution-title">
+
+                        <div class="execution-icon">◉</div>
+
+                        <div>
+                            <h3>Execution Timeline</h3>
+                            <p>Follow your program step by step.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="execution-controls">
+
+                        <button class="control-button"
+                            id="previousButton" disabled>
+                            ◀
+                        </button>
+
+                        <button class="control-button primary-control"
+                            id="nextButton" disabled>
+                            ▶ Next Step
+                        </button>
+
+                        <button class="control-button"
+                            id="autoButton" disabled>
+                            Auto Play
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div class="timeline-content" id="timelineContent">
+
+                    <div class="timeline-empty">
+                        <span>⌁</span>
+                        <p>Your execution timeline will appear here.</p>
+                        <small>
+                            Write a C program and press Run Program.
+                        </small>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- OUTPUT AND EXPLANATION -->
+            <div class="bottom-grid">
+
+                <section class="output-panel">
+
+                    <div class="panel-heading">
+                        <span>OUTPUT TERMINAL</span>
+                        <button id="clearOutput">CLEAR</button>
+                    </div>
+
+                    <div class="terminal-content" id="terminalContent">
+
+                        <p class="terminal-welcome">
+                            <span>➜</span>
+                            Waiting for program execution...
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <section class="explanation-panel">
+
+                    <div class="panel-heading">
+                        <span>STEP EXPLANATION</span>
+                        <span class="ai-label">LEARNING MODE</span>
+                    </div>
+
+                    <div class="explanation-content"
+                        id="explanationContent">
+
+                        <div class="explanation-icon">✧</div>
+
+                        <strong>Ready to explore?</strong>
+
+                        <p>
+                            Execute your program to see a simple
+                            explanation of every operation.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+            <!-- FOOTER -->
+            <footer class="footer">
+                <span>C-TRACE © 2026</span>
+                <span>Built for curious programmers.</span>
+                <span>Version 1.0.0 Beta</span>
+            </footer>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script type="module" src="/src/main.js"></script>
+
+</body>
+</html>
